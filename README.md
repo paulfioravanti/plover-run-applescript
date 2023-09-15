@@ -45,8 +45,8 @@ benchmarks to objectively prove this).
 
 ## Install
 
-Until this plugin is added to the Plover registry, download from GitHub or clone
-using [git][]:
+Until this plugin is [added to the Plover registry][], download from GitHub or
+clone using [git][]:
 
 ```sh
 git clone git@github.com:paulfioravanti/plover-run-applescript.git
@@ -150,6 +150,7 @@ plover -s plover_plugins install .
 > of Plover. See the [Invoke Plover from the command line][] page for details on
 > how to create that reference.
 
+[added to the Plover registry]: https://github.com/openstenoproject/plover_plugins_registry/pull/42
 [AppleScript]: https://en.wikipedia.org/wiki/AppleScript
 [Build Status image]: https://github.com/paulfioravanti/plover-run-applescript/actions/workflows/ci.yml/badge.svg
 [Build Status url]: https://github.com/paulfioravanti/plover-run-applescript/actions/workflows/ci.yml
