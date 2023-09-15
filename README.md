@@ -78,6 +78,26 @@ plover -s plover_plugins install .
 
 ## How To Use
 
+In your dictionaries, create entry values that look like the following:
+
+```json
+"{:COMMAND:APPLESCRIPT:/path/to/your/applescript-file.scpt}"
+```
+
+The path to your AppleScript file can contain a local `$ENVIRONMENT_VARIABLE`,
+which will get expanded. For example, if you have a line like the following in
+your `.zshrc` file:
+
+```sh
+export STENO_DICTIONARIES="$HOME/steno/steno-dictionaries"
+```
+
+You can use it in the command:
+
+```json
+"{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/path/to/applescript-file.scpt}"
+```
+
 ## Development
 
 Clone from GitHub with [git][]:
