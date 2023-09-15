@@ -1,2 +1,2 @@
 [MAIN]
-ignored-modules=plover.machine.base,plover.registry,plover.engine
+ignored-modules=plover.machine.base,plover.registry,plover.engine,PyXA

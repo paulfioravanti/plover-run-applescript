@@ -1,5 +1,7 @@
 # Plover Run AppleScript
 
+[![Build Status][Build Status image]][Build Status url] [![linting: pylint][linting image]][linting url]
+
 This [Plover][] [extension][] [plugin][] contains a [command][] that can load in
 and run external [AppleScript][] files.
 
