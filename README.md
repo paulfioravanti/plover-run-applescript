@@ -141,6 +141,10 @@ You can use it in the command:
 >
 > If/when the issue gets fixed, you should be able to use lists again...
 
+Pressing the "Disconnect and reconnect the machine" button on the Plover UI
+resets the AppleScript script cache. If you make any changes to any AppleScript
+files, make sure to press it so the file will be re-read in again.
+
 ## Development
 
 Clone from GitHub with [git][]:
@@ -160,7 +164,7 @@ make sure your local development environment also uses Python 3.9.x.
 
 ### PyXA Version
 
-This plugin depends on [PyXA][] for all Python`<->`AppleScript interoperations.
+This plugin depends on [PyXA][] for all Python-to-AppleScript interoperations.
 The dependency is currently pinned at [version 0.0.9][] due to later versions
 of PyXA using Python 3.10 syntax ([`match case`][] etc) that is too new for
 Plover's Python version, and causes syntax errors.
