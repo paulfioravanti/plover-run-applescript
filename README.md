@@ -78,11 +78,30 @@ plover -s plover_plugins install .
 
 ## How To Use
 
+### One-Liners
+
+If your AppleScript is one line long, then you can use it directly in your
+dictionary entry:
+
+```json
+"{:COMMAND:APPLESCRIPT:activate application \"Google Chrome\"}"
+```
+
+### AppleScript Files
+
 In your dictionaries, create entry values that look like the following:
 
 ```json
 "{:COMMAND:APPLESCRIPT:/path/to/your/applescript-file.scpt}"
 ```
+
+> [!NOTE]
+> You can compile your `.applescript` files into [`.scpt`][] files using the
+> [`osacompile`][] tool:
+>
+> ```sh
+> osacompile -o my-file.scpt my-file.applescript
+> ```
 
 The path to your AppleScript file can contain a local `$ENVIRONMENT_VARIABLE`,
 which will get expanded. For example, if you have a line like the following in
@@ -97,6 +116,30 @@ You can use it in the command:
 ```json
 "{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/path/to/applescript-file.scpt}"
 ```
+
+> [!WARNING]
+> Due to an [issue with PyXA][], which this plugin relies on to talk to Apple's
+> APIs, your AppleScript files cannot use lists (denoted by curly braces; e.g.
+> `{"one", "two"}`).
+>
+> So, if you have code that looks like this:
+>
+> ```applescript
+> keystroke "k" using {command down, shift down}
+> ```
+>
+> You will have to re-write it out longhand to be able to use it with this
+> plugin, like so:
+>
+> ```applescript
+> key down command
+> key down shift
+> keystroke "k"
+> key up shift
+> key up command
+> ```
+>
+> If/when the issue gets fixed, you should be able to use lists again...
 
 ## Development
 
@@ -120,13 +163,19 @@ make sure your local development environment also uses Python 3.9.x.
 This plugin depends on [PyXA][] for all Python`<->`AppleScript interoperations.
 The dependency is currently pinned at [version 0.0.9][] due to later versions
 of PyXA using Python 3.10 syntax ([`match case`][] etc) that is too new for
-Plover's Python version.
+Plover's Python version, and causes syntax errors.
 
 ### Testing
 
-Currently, all parts of this extension rely directly on Plover's environment,
-which makes testing difficult. So, as of now, no automated tests exist, and all
-testing has been done manually.
+Tests in this plugin were created with [Pytest][]. Run them with the following
+command:
+
+```sh
+pytest
+```
+
+Currently, the only parts able to be tested are ones that do not rely directly
+on Plover or PyXA.
 
 ### Linting
 
@@ -160,16 +209,19 @@ plover -s plover_plugins install .
 [git]: https://git-scm.com/
 [interactive mode]: https://www.gnu.org/software/bash/manual/html_node/Interactive-Shell-Behavior.html
 [Invoke Plover from the command line]: https://github.com/openstenoproject/plover/wiki/Invoke-Plover-from-the-command-line
+[issue with PyXA]: https://github.com/SKaplanOfficial/PyXA/issues/16
 [linting image]: https://img.shields.io/badge/linting-pylint-yellowgreen
 [linting url]: https://github.com/pylint-dev/pylint
 [macOS]: https://en.wikipedia.org/wiki/MacOS
 [`match case`]: https://peps.python.org/pep-0636/
 [my Plover dictionaries]: https://github.com/paulfioravanti/steno-dictionaries/tree/main
+[`osacompile`]: https://ss64.com/osx/osacompile.html
 [`osascript`]: https://ss64.com/osx/osascript.html
 [Plover]: https://www.openstenoproject.org/
 [Plover Run Shell]: https://github.com/user202729/plover_run_shell
 [plugin]: https://plover.readthedocs.io/en/latest/plugins.html#types-of-plugins
 [Pylint]: https://github.com/pylint-dev/pylint
+[Pytest]: https://pytest.org/
 [PyXA]: https://github.com/SKaplanOfficial/PyXA
 [`.scpt`]: https://fileinfo.com/extension/scpt
 [version 0.0.9]: https://github.com/SKaplanOfficial/PyXA/tree/v0.0.9

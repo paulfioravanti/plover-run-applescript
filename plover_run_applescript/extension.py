@@ -4,17 +4,15 @@ Plover entry point extension module for Plover Run AppleScript.
     - https://plover.readthedocs.io/en/latest/plugin-dev/extensions.html
     - https://plover.readthedocs.io/en/latest/plugin-dev/commands.html
 """
-import os
-import re
-
 from plover.engine import StenoEngine
 from plover.machine.base import STATE_RUNNING
 from plover.registry import registry
 
-from PyXA import AppleScript
+from .applescript import load, run_code, run_script
+from .path import expand_path
 
 
-_ENV_VAR = re.compile(r"(\$[A-Za-z_][A-Za-z_0-9]*)")
+_APPLESCRIPT_FILE_EXTENSION = ".scpt"
 
 class RunAppleScript:
     """
@@ -30,7 +28,11 @@ class RunAppleScript:
         """
         Sets up the command plugin and steno engine hooks
         """
-        registry.register_plugin("command", "applescript", self._applescript)
+        registry.register_plugin(
+            "command",
+            "applescript",
+            self._run_applescript
+        )
         self._engine.hook_connect(
             "machine_state_changed",
             self._machine_state_changed
@@ -45,28 +47,25 @@ class RunAppleScript:
             self._machine_state_changed
         )
 
-    def _applescript(self, _engine: StenoEngine, argument: str) -> None:
+    def _run_applescript(self, _engine: StenoEngine, argument: str) -> None:
         """
         Loads an external AppleScript and stores it in memory for faster
         execution on subsequent calls.
         """
         if not argument:
-            raise ValueError("No AppleScript filepath provided")
+            raise ValueError("No AppleScript code/filepath provided")
+
+        if not argument.endswith(_APPLESCRIPT_FILE_EXTENSION):
+            return run_code(argument)
 
         try:
             script = self._applescripts[argument]
         except KeyError:
-            filepath = RunAppleScript._expand_path(argument)
+            filepath = expand_path(argument)
+            script = load(filepath)
+            self._applescripts[argument] = script
 
-            try:
-                script = AppleScript.load(filepath)
-                self._applescripts[argument] = script
-            except AttributeError as exc:
-                raise ValueError(
-                    f"Unable to load file from: {filepath}"
-                ) from exc
-
-        script.run()
+        return run_script(script)
 
     def _machine_state_changed(
         self,
@@ -80,24 +79,3 @@ class RunAppleScript:
         """
         if machine_state == STATE_RUNNING:
             self._applescripts = {}
-
-    @staticmethod
-    def _expand_path(path):
-        parts = re.split(_ENV_VAR, path)
-        expanded_parts = []
-
-        for part in parts:
-            if part.startswith("$"):
-                # NOTE: Using os.popen with an interactive mode bash command
-                # (bash -ci) seemed to be the only way to access a user's env
-                # vars on their Mac outside Plover's environment.
-                expanded = os.popen(f"bash -ci 'echo {part}'").read().strip()
-
-                if not expanded:
-                    raise ValueError(f"No value found for env var: {part}")
-
-                expanded_parts.append(expanded)
-            else:
-                expanded_parts.append(part)
-
-        return "".join(expanded_parts)

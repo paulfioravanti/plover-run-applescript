@@ -9,7 +9,7 @@ jobs:
   # Adapted from: https://github.com/pypa/gh-action-pypi-publish#usage
   pypi-publish:
     if: ${{ startsWith(github.ref, 'refs/tags') }}
-    name: Build, Lint, Release to PyPI
+    name: Build, Lint, Test, Release to PyPI
     runs-on: ubuntu-latest
     environment:
       name: release
@@ -25,11 +25,14 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install Lint Dependencies
-        run: pip install pylint
+      - name: Install Test/Lint Dependencies
+        run: pip install pytest pylint
 
       - name: Run Linter
         run: pylint plover_run_applescript
+
+      - name: Run Tests
+        run: pytest
 
       - name: Install Build
         run: python -m pip install --upgrade build
