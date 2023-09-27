@@ -6,6 +6,7 @@ import re
 import subprocess
 
 _ENV_VAR = re.compile(r"(\$[A-Za-z_][A-Za-z_0-9]*)")
+_DEFAULT_SHELL = "bash"
 _INTERACTIVE_SHELLS = ["zsh", "bash"]
 
 def expand_path(path: str) -> str:
@@ -14,7 +15,7 @@ def expand_path(path: str) -> str:
 
     Raises an error if a value for the env var cannot be found.
     """
-    shell = os.environ["SHELL"].split("/")[-1]
+    shell = os.environ.get("SHELL", _DEFAULT_SHELL).split("/")[-1]
     # NOTE: Using an interactive mode command (bash/zsh -ci) seemed to be the
     # only way to access a user's env vars on their Mac outside Plover's
     # environment.
