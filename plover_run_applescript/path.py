@@ -3,7 +3,6 @@ Path - a module for dealing with expansion of ENV vars in a file path.
 """
 import os
 import re
-import subprocess
 
 _ENV_VAR = re.compile(r"(\$[A-Za-z_][A-Za-z_0-9]*)")
 _DEFAULT_SHELL = "bash"
@@ -28,12 +27,7 @@ def _expand_path_part(part: str, shell: str, flags: str) -> str:
     if not part.startswith("$"):
         return part
 
-    expanded = subprocess.run(
-        [shell, flags, f"echo {part}"],
-        stdout=subprocess.PIPE,
-        text=True,
-        check=False
-    ).stdout.strip()
+    expanded = os.popen(f"{shell} {flags} 'echo {part}'").read().strip()
 
     if not expanded:
         raise ValueError(f"No value found for env var: {part}")
