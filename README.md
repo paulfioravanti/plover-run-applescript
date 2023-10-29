@@ -119,6 +119,9 @@ You can use it in the command:
 > key up command
 > ```
 >
+> Or, extract the code you have that uses lists out into [script libraries][].
+> I wrote about how I did this in _[Sharing AppleScript Handlers][]_.
+>
 > If/when the issue gets fixed, you should be able to use lists again...
 
 Pressing the "Disconnect and reconnect the machine" button on the Plover UI
@@ -207,5 +210,7 @@ plover -s plover_plugins install .
 [Pytest]: https://pytest.org/
 [PyXA]: https://github.com/SKaplanOfficial/PyXA
 [`.scpt`]: https://fileinfo.com/extension/scpt
+[script libraries]: https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/UseScriptLibraries.html
+[Sharing AppleScript Handlers]: https://www.paulfioravanti.com/blog/sharing-applescript-handlers/
 [version 0.0.9]: https://github.com/SKaplanOfficial/PyXA/tree/v0.0.9
 [`workflow_context.yml`]: https://github.com/openstenoproject/plover/blob/master/.github/workflows/ci/workflow_context.yml
