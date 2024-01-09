@@ -4,15 +4,19 @@ Plover entry point extension module for Plover Run AppleScript.
     - https://plover.readthedocs.io/en/latest/plugin-dev/extensions.html
     - https://plover.readthedocs.io/en/latest/plugin-dev/commands.html
 """
+from pathlib import Path
+
 from plover.engine import StenoEngine
 from plover.machine.base import STATE_RUNNING
+from plover.oslayer.config import CONFIG_DIR
 from plover.registry import registry
 
-from .applescript import load, run_code, run_script
-from .path import expand_path
-
+from . import applescript
+from . import config
+from . import path
 
 _APPLESCRIPT_FILE_EXTENSION = ".scpt"
+_CONFIG_FILEPATH = Path(CONFIG_DIR) / "run_applescript.json"
 
 class RunAppleScript:
     """
@@ -22,7 +26,7 @@ class RunAppleScript:
     """
     def __init__(self, engine: StenoEngine) -> None:
         self._engine = engine
-        self._applescripts = {}
+        self._applescripts = config.load(_CONFIG_FILEPATH)
 
     def start(self) -> None:
         """
@@ -30,7 +34,7 @@ class RunAppleScript:
         """
         registry.register_plugin(
             "command",
-            "applescript",
+            "APPLESCRIPT",
             self._run_applescript
         )
         self._engine.hook_connect(
@@ -56,16 +60,20 @@ class RunAppleScript:
             raise ValueError("No AppleScript code/filepath provided")
 
         if not argument.endswith(_APPLESCRIPT_FILE_EXTENSION):
-            return run_code(argument)
+            return applescript.run_code(argument)
 
         try:
             script = self._applescripts[argument]
         except KeyError:
-            filepath = expand_path(argument)
-            script = load(filepath)
-            self._applescripts[argument] = script
+            filepath = path.expand(argument)
+            script = applescript.load(filepath)
+            self._applescripts[filepath] = script
+            config.save(
+                _CONFIG_FILEPATH,
+                sorted(self._applescripts.keys())
+            )
 
-        return run_script(script)
+        return applescript.run_script(script)
 
     def _machine_state_changed(
         self,
@@ -78,4 +86,4 @@ class RunAppleScript:
         made to external AppleScripts to be re-read in.
         """
         if machine_state == STATE_RUNNING:
-            self._applescripts = {}
+            self._applescripts = config.load(_CONFIG_FILEPATH)
