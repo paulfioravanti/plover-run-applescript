@@ -11,3 +11,6 @@ dist/
 
 # Language versioning
 .tool-versions
+
+# Test coverage
+.coverage
