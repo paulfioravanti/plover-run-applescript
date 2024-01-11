@@ -67,7 +67,7 @@ class RunAppleScript:
         except KeyError:
             filepath = path.expand(argument)
             script = applescript.load(filepath)
-            self._applescripts[filepath] = script
+            self._applescripts[argument] = script
             config.save(
                 _CONFIG_FILEPATH,
                 sorted(self._applescripts.keys())

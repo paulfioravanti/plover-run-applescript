@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from .. import applescript
+from .. import path
 
 def load(config_filepath: Path) -> dict[str, str]:
     """
@@ -30,9 +31,13 @@ def load(config_filepath: Path) -> dict[str, str]:
     if not config_applescript_filepaths:
         return applescripts
 
-    for filepath in config_applescript_filepaths:
+    expanded_applescript_filepaths = list(zip(
+        config_applescript_filepaths,
+        path.expand_list(config_applescript_filepaths)
+    ))
+    for (filepath, expanded_filepath) in expanded_applescript_filepaths:
         try:
-            applescripts[filepath] = applescript.load(filepath)
+            applescripts[filepath] = applescript.load(expanded_filepath)
         except ValueError:
             # Ignore bad file paths and remove them from the set
             continue
