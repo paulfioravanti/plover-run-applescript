@@ -5,44 +5,6 @@
 This [Plover][] [extension][] [plugin][] contains a [command][] that can load in
 and run external [AppleScript][] files.
 
-## The Problem
-
-The reason this plugin exists is because of pain. The following is an example of
-how I used to run AppleScripts from [my Plover dictionaries][] to perform some
-kind of automation task that could _only_ be done on [macOS][] using
-AppleScript:
-
-```json
-"W-D": "{:COMMAND:SHELL:bash -ci 'osascript $STENO_DICTIONARIES/src/command/text/move-one-word-forward.scpt'}"
-```
-
-This solution does the following:
-
-- uses the [Plover Run Shell][] plugin to run a shell command from Python
-- calls `bash` in [interactive mode][] (`-i`) so that the command can see
-  [environment variables][] (`$STENO_DICTIONARIES` in this case) outside of the
-  Plover environment
-- gets `bash` to use the [`osascript`][] command-line tool to load in and run
-  the target compiled AppleScript ([`.scpt`][] file)
-
-Running AppleScripts is generally _slow_, and constantly running one-off
-commands that traverse a stack of `Python->Shell->osascript` made them _even
-slower_.
-
-So, this plugin leverages [PyXA][] to talk directly to Apple's APIs from Python,
-and keeps a local cache of loaded scripts to avoid needing to re-read in
-AppleScript files every time a command is run.
-
-The above command now looks like this:
-
-```json
-"W-D": "{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/src/command/text/move-one-word-forward.scpt}"
-```
-
-The result is that commands at least _feel_ like they run significantly faster,
-and I'm pretty sure it's because they actually are (but I don't have any hard
-benchmarks to objectively prove this).
-
 ## Install
 
 1. In the Plover application, open the Plugins Manager (either click the Plugins
@@ -79,7 +41,7 @@ In your dictionaries, create entry values that look like the following:
 > You can compile your `.applescript` files into [`.scpt`][] files using the
 > [`osacompile`][] tool:
 >
-> ```sh
+> ```console
 > osacompile -o my-file.scpt my-file.applescript
 > ```
 
@@ -128,11 +90,48 @@ Pressing the "Disconnect and reconnect the machine" button on the Plover UI
 resets the AppleScript script cache. If you make any changes to any AppleScript
 files, make sure to press it so the file will be re-read in again.
 
+## The Problem
+
+The following is an example of how I used to run AppleScripts from [my Plover
+dictionaries][] to perform some kind of automation task that could _only_ be
+done on [macOS][] using AppleScript:
+
+```json
+"W-D": "{:COMMAND:SHELL:bash -ci 'osascript $STENO_DICTIONARIES/src/command/text/move-one-word-forward.scpt'}"
+```
+
+This solution does the following:
+
+- uses the [Plover Run Shell][] plugin to run a shell command from Python
+- calls `bash` in [interactive mode][] (`-i`) so that the command can see
+  [environment variables][] (`$STENO_DICTIONARIES` in this case) outside of the
+  Plover environment
+- gets `bash` to use the [`osascript`][] command-line tool to load in and run
+  the target compiled AppleScript ([`.scpt`][] file)
+
+Running AppleScripts is generally _slow_, and constantly running one-off
+commands that traverse a stack of `Python->Shell->osascript` made them _even
+slower_.
+
+So, this plugin leverages [PyXA][] to talk directly to Apple's APIs from Python,
+and keeps a local cache of loaded scripts to avoid needing to re-read in
+AppleScript files every time a command is run.
+
+The above command now looks like this:
+
+```json
+"W-D": "{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/src/command/text/move-one-word-forward.scpt}"
+```
+
+The result is that commands at least _feel_ like they run significantly faster,
+and I'm pretty sure it's because they actually are (but I don't have any hard
+benchmarks to objectively prove this).
+
 ## Development
 
 Clone from GitHub with [git][]:
 
-```sh
+```console
 git clone git@github.com:paulfioravanti/plover-run-applescript.git
 cd plover-run-applescript
 ```
@@ -157,12 +156,19 @@ Plover's Python version, and causes syntax errors.
 Tests in this plugin were created with [Pytest][]. Run them with the following
 command:
 
-```sh
+```console
 pytest
 ```
 
+If you get `ModuleNotFoundError: No module named 'PyXA'` errors, then run the
+following command to get PyXA available in your test environment:
+
+```console
+pip install -e ".[test]"
+```
+
 Currently, the only parts able to be tested are ones that do not rely directly
-on Plover or PyXA.
+on Plover.
 
 ### Linting
 

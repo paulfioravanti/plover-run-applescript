@@ -28,9 +28,9 @@ def run_script(script: "AppleScript") -> Any:
     """
     Wrapper around AppleScript.run(self)
     """
-    retval = script.run()
+    result = script.run()
 
-    if not retval:
+    if not result:
         raise ValueError("AppleScript code errored during execution")
 
-    return retval
+    return result

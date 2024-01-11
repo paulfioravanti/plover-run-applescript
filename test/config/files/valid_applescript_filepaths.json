@@ -1,0 +1,6 @@
+{
+  "applescripts": [
+    "path/to/foo.scpt",
+    "path/to/bar.scpt"
+  ]
+}
