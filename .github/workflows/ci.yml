@@ -26,7 +26,7 @@ jobs:
       - name: Install Test/Lint Dependencies
         # Ensure that PyXA is installed as a test dependency
         run: |
-          pip install pytest pylint
+          pip install pytest pytest-mock pylint
           pip install -e ".[test]"
 
       - name: Run Linter
