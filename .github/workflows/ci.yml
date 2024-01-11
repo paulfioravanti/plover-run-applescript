@@ -24,7 +24,10 @@ jobs:
           python-version: 3.9
 
       - name: Install Test/Lint Dependencies
-        run: pip install pytest pylint
+        # Ensure that PyXA is installed as a test dependency
+        run: |
+          pip install pytest pylint
+          pip install -e ".[test]"
 
       - name: Run Linter
         run: pylint plover_run_applescript
