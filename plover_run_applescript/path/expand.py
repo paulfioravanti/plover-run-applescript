@@ -30,7 +30,7 @@ def expand(path: str) -> str:
 
     return "".join(expanded_parts)
 
-def expand_list(filepath_list: list) -> dict[str, str]:
+def expand_list(filepath_list: list[str]) -> list[str]:
     """
     Returns a list of expanded filepaths from a list of filepaths.
 
