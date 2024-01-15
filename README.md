@@ -202,6 +202,7 @@ plover -s plover_plugins install .
 [Build Status image]: https://github.com/paulfioravanti/plover-run-applescript/actions/workflows/ci.yml/badge.svg
 [Build Status url]: https://github.com/paulfioravanti/plover-run-applescript/actions/workflows/ci.yml
 [command]: https://plover.readthedocs.io/en/latest/plugin-dev/commands.html
+[Coverage.py]: https://github.com/nedbat/coveragepy
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 [extension]: https://plover.readthedocs.io/en/latest/plugin-dev/extensions.html
 [git]: https://git-scm.com/
@@ -221,6 +222,7 @@ plover -s plover_plugins install .
 [plugin]: https://plover.readthedocs.io/en/latest/plugins.html#types-of-plugins
 [Pylint]: https://github.com/pylint-dev/pylint
 [Pytest]: https://pytest.org/
+[pytest-cov]: https://github.com/pytest-dev/pytest-cov/
 [PyXA]: https://github.com/SKaplanOfficial/PyXA
 [`.scpt`]: https://fileinfo.com/extension/scpt
 [script libraries]: https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/UseScriptLibraries.html
