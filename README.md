@@ -153,11 +153,29 @@ Plover's Python version, and causes syntax errors.
 
 ### Testing
 
-Tests in this plugin were created with [Pytest][]. Run them with the following
-command:
+- [Pytest][] is used for testing in this plugin.
+- [Coverage.py][] and [pytest-cov][] are used for test coverage, and to run
+  coverage within Pytest
+- [Pylint][] is used for code quality
+- [Mypy][] is used for static type checking
+
+Currently, the only parts able to be tested are ones that do not rely directly
+on Plover or PyXA.
+
+Run tests, coverage, and linting with the following commands:
 
 ```console
-pytest
+pytest --cov --cov-report=term-missing
+pylint plover_run_applescript
+mypy plover_run_applescript
+```
+
+To get a HTML test coverage report:
+
+```console
+coverage run --module pytest
+coverage html
+open htmlcov/index.html
 ```
 
 If you get `ModuleNotFoundError: No module named 'PyXA'` errors, then run the
@@ -167,19 +185,7 @@ following command to get PyXA available in your test environment:
 pip install -e ".[test]"
 ```
 
-Currently, the only parts able to be tested are ones that do not rely directly
-on Plover.
-
-### Linting
-
-Attempts have been made to have at least some kind of code quality baseline with
-[Pylint][]. Run the linter over the codebase with the following command:
-
-```sh
-pylint plover_run_applescript
-```
-
-### Testing Changes
+### Deploying Changes
 
 After making any code changes, install the plugin into Plover with the following
 command:
@@ -207,6 +213,7 @@ plover -s plover_plugins install .
 [macOS]: https://en.wikipedia.org/wiki/MacOS
 [`match case`]: https://peps.python.org/pep-0636/
 [my Plover dictionaries]: https://github.com/paulfioravanti/steno-dictionaries/tree/main
+[Mypy]: https://github.com/python/mypy
 [`osacompile`]: https://ss64.com/osx/osacompile.html
 [`osascript`]: https://ss64.com/osx/osascript.html
 [Plover]: https://www.openstenoproject.org/

@@ -5,6 +5,7 @@ Plover entry point extension module for Plover Run AppleScript.
     - https://plover.readthedocs.io/en/latest/plugin-dev/commands.html
 """
 from pathlib import Path
+from typing import Any
 
 from plover.engine import StenoEngine
 from plover.machine.base import STATE_RUNNING
@@ -51,7 +52,7 @@ class RunAppleScript:
             self._machine_state_changed
         )
 
-    def _run_applescript(self, _engine: StenoEngine, argument: str) -> None:
+    def _run_applescript(self, _engine: StenoEngine, argument: str) -> Any:
         """
         Loads an external AppleScript and stores it in memory for faster
         execution on subsequent calls.

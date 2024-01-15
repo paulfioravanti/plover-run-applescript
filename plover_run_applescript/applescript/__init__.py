@@ -6,3 +6,9 @@ A package dealing with:
     - Running raw AppleScript code and AppleScript scripts
 """
 from .script import load, run_code, run_script
+
+__all__ = [
+    "load",
+    "run_code",
+    "run_script",
+]

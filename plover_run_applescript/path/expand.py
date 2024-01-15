@@ -30,7 +30,7 @@ def expand(path: str) -> str:
 
     return "".join(expanded_parts)
 
-def expand_list(filepath_list: list[str]) -> list[str]:
+def expand_list(filepath_list: list[str]) -> list[Tuple[str, str]]:
     """
     Returns a list of expanded filepaths from a list of filepaths.
 
@@ -38,9 +38,13 @@ def expand_list(filepath_list: list[str]) -> list[str]:
     """
     filepaths = _VAR_DIVIDER.join(filepath_list)
     (shell, flags) = _fetch_shell_and_flags()
-    expanded = _perform_expansion(filepaths, shell, flags)
+    expanded_filepaths = _perform_expansion(filepaths, shell, flags)
+    expanded_filepath_list = list(zip(
+        filepath_list,
+        expanded_filepaths.split(_VAR_DIVIDER)
+    ))
 
-    return expanded.split(_VAR_DIVIDER)
+    return expanded_filepath_list
 
 def _fetch_shell_and_flags() -> Tuple[str, str]:
     shell = os.environ.get("SHELL", _DEFAULT_SHELL).split("/")[-1]
