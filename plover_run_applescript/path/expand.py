@@ -46,6 +46,8 @@ def expand_list(filepath_list: list[str]) -> list[Tuple[str, str]]:
     return expanded_filepath_list
 
 def _fetch_shell() -> str:
+    # NOTE: Entire shell path cannot be used because Plover's shell location may
+    # not be the same as the user's machine.
     return os.getenv("SHELL", _DEFAULT_SHELL).split("/")[-1]
 
 def _perform_expansion(target: str, shell: str) -> str:
