@@ -46,7 +46,7 @@ def expand_list(filepath_list: list[str]) -> list[Tuple[str, str]]:
     return expanded_filepath_list
 
 def _fetch_shell() -> str:
-    return os.getenv("SHELL", _DEFAULT_SHELL).split("/")[-1]
+    return os.getenv("SHELL", _DEFAULT_SHELL)
 
 def _perform_expansion(target: str, shell: str) -> str:
     # NOTE: Using an interactive mode command (bash/zsh/fish -ic) seemed to be
