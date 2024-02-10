@@ -27,7 +27,7 @@ class RunAppleScript:
     """
     def __init__(self, engine: StenoEngine) -> None:
         self._engine = engine
-        self._applescripts = {}
+        self._applescripts: dict[str, Any] = {}
 
     def start(self) -> None:
         """
