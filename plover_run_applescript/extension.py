@@ -27,7 +27,7 @@ class RunAppleScript:
     """
     def __init__(self, engine: StenoEngine) -> None:
         self._engine = engine
-        self._applescripts = config.load(_CONFIG_FILEPATH)
+        self._applescripts = {}
 
     def start(self) -> None:
         """
@@ -42,6 +42,7 @@ class RunAppleScript:
             "machine_state_changed",
             self._machine_state_changed
         )
+        self._applescripts = config.load(_CONFIG_FILEPATH)
 
     def stop(self) -> None:
         """
