@@ -60,9 +60,9 @@ You can use it in the command:
 ```
 
 > [!WARNING]
-> Due to an [issue with PyXA][], which this plugin relies on to talk to Apple's
-> APIs, your AppleScript files cannot use lists (denoted by curly braces; e.g.
-> `{"one", "two"}`).
+> Due to [this issue with PyXA][], which this plugin relies on to talk to
+> Apple's APIs, your AppleScript files that you call from a Plover outline
+> cannot use lists (denoted by curly braces; e.g.  `{"one", "two"}`).
 >
 > So, if you have code that looks like this:
 >
@@ -84,7 +84,11 @@ You can use it in the command:
 > Or, extract the code you have that uses lists out into [script libraries][].
 > I wrote about how I did this in _[Sharing AppleScript Handlers][]_.
 >
-> If/when the issue gets fixed, you should be able to use lists again...
+> The AppleScript-related issues have now been fixed, as can be seen in the
+> issue. However, since those fixes are only in a version of PyXA that uses a
+> Python version later than 3.9, we will have to wait until the Python version
+> bundled in with Plover itself updates to at least 3.10 before this problem can
+> be properly resolved.
 
 Pressing the "Disconnect and reconnect the machine" button on the Plover UI
 resets the AppleScript script cache. If you make any changes to any AppleScript
@@ -208,7 +212,6 @@ plover -s plover_plugins install .
 [git]: https://git-scm.com/
 [interactive mode]: https://www.gnu.org/software/bash/manual/html_node/Interactive-Shell-Behavior.html
 [Invoke Plover from the command line]: https://github.com/openstenoproject/plover/wiki/Invoke-Plover-from-the-command-line
-[issue with PyXA]: https://github.com/SKaplanOfficial/PyXA/issues/16
 [linting image]: https://img.shields.io/badge/linting-pylint-yellowgreen
 [linting url]: https://github.com/pylint-dev/pylint
 [macOS]: https://en.wikipedia.org/wiki/MacOS
@@ -230,5 +233,6 @@ plover -s plover_plugins install .
 [`.scpt`]: https://fileinfo.com/extension/scpt
 [script libraries]: https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/UseScriptLibraries.html
 [Sharing AppleScript Handlers]: https://www.paulfioravanti.com/blog/sharing-applescript-handlers/
+[this issue with PyXA]: https://github.com/SKaplanOfficial/PyXA/issues/16
 [version 0.0.9]: https://github.com/SKaplanOfficial/PyXA/tree/v0.0.9
 [`workflow_context.yml`]: https://github.com/openstenoproject/plover/blob/master/.github/workflows/ci/workflow_context.yml
