@@ -12,9 +12,11 @@ from plover.machine.base import STATE_RUNNING
 from plover.oslayer.config import CONFIG_DIR
 from plover.registry import registry
 
-from . import applescript
-from . import config
-from . import path
+from . import (
+    applescript,
+    config,
+    path
+)
 
 _CONFIG_FILEPATH = Path(CONFIG_DIR) / "run_applescript.json"
 

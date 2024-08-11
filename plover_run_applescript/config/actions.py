@@ -2,10 +2,15 @@
 Module to handle reading in the application JSON config file.
 """
 from pathlib import Path
-from typing import Any, Tuple
+from typing import (
+    Any,
+    Tuple
+)
 
-from .. import applescript
-from .. import path
+from .. import (
+    applescript,
+    path
+)
 from . import file
 
 def load(config_filepath: Path) -> dict[str, str]:
