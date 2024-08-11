@@ -16,7 +16,6 @@ from . import applescript
 from . import config
 from . import path
 
-_APPLESCRIPT_FILE_EXTENSION = ".scpt"
 _CONFIG_FILEPATH = Path(CONFIG_DIR) / "run_applescript.json"
 
 class RunAppleScript:
@@ -61,7 +60,7 @@ class RunAppleScript:
         if not argument:
             raise ValueError("No AppleScript code/filepath provided")
 
-        if not argument.endswith(_APPLESCRIPT_FILE_EXTENSION):
+        if not argument.endswith(applescript.FILE_EXTENSION):
             return applescript.run_code(argument)
 
         try:

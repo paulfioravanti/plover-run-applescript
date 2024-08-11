@@ -7,7 +7,10 @@ A package dealing with:
 """
 from .script import load, run_code, run_script
 
+FILE_EXTENSION = ".scpt"
+
 __all__ = [
+    "FILE_EXTENSION",
     "load",
     "run_code",
     "run_script",
