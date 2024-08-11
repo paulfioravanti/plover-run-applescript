@@ -4,7 +4,7 @@
 A package dealing with:
     - expanding local environment variables within a filepath
 """
-from .expand import (
+from .expander import (
     expand,
     expand_list
 )

@@ -1,5 +1,5 @@
 """
-Path - a module for dealing with expansion of ENV vars in a file path.
+Expander - a module for dealing with expansion of ENV vars in a file path.
 """
 import os
 import re
