@@ -2,8 +2,8 @@
 
 [![Build Status][Build Status image]][Build Status url] [![PyPI - Version][PyPI version image]][PyPI url] [![PyPI - Downloads][PyPI downloads image]][PyPI url] [![linting: pylint][linting image]][linting url]
 
-This [Plover][] [extension][] [plugin][] contains a [command][] that can load in
-and run external [AppleScript][] files.
+This [Plover][] [extension][] [plugin][] contains a [command][] that can run
+[AppleScript][] code, as well as load in and run external AppleScript files.
 
 ## Install
 
@@ -60,9 +60,10 @@ You can use it in the command:
 ```
 
 > [!WARNING]
-> Due to [this issue with PyXA][], which this plugin relies on to talk to
-> Apple's APIs, your AppleScript files that you call from a Plover outline
-> cannot use lists (denoted by curly braces; e.g.  `{"one", "two"}`).
+> Due to [this issue][] with [PyXA][], which this plugin relies on to talk to
+> Apple's APIs, any AppleScript files that are referenced in a Plover outline
+> cannot contain lists in the code (denoted by curly braces; e.g.
+> `{"one", "two"}`).
 >
 > So, if you have code that looks like this:
 >
@@ -84,11 +85,11 @@ You can use it in the command:
 > Or, extract the code you have that uses lists out into [script libraries][].
 > I wrote about how I did this in _[Sharing AppleScript Handlers][]_.
 >
-> The AppleScript-related issues have now been fixed, as can be seen in the
-> issue. However, since those fixes are only in a version of PyXA that uses a
-> Python version later than 3.9, we will have to wait until the Python version
-> bundled in with Plover itself updates to at least 3.10 before this problem can
-> be properly resolved.
+> **Update**: The AppleScript-related issues have now been fixed, as can be seen
+> in the issue. However, since those fixes are only in a version of PyXA that
+> uses a Python version later than 3.9, we will have to wait until the Python
+> version bundled in with Plover itself updates to at least 3.10 before this
+> problem can be properly resolved.
 
 Pressing the "Disconnect and reconnect the machine" button on the Plover UI
 resets the AppleScript script cache. If you make any changes to any AppleScript
@@ -126,10 +127,6 @@ The above command now looks like this:
 ```json
 "W-D": "{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/src/command/text/move-one-word-forward.scpt}"
 ```
-
-The result is that commands at least _feel_ like they run significantly faster,
-and I'm pretty sure it's because they actually are (but I don't have any hard
-benchmarks to objectively prove this).
 
 ## Development
 
@@ -194,13 +191,20 @@ pip install -e ".[test]"
 After making any code changes, install the plugin into Plover with the following
 command:
 
-```sh
-plover -s plover_plugins install .
+```console
+plover --script plover_plugins install --editable .
 ```
 
 > Where `plover` in the command is a reference to your locally installed version
 > of Plover. See the [Invoke Plover from the command line][] page for details on
 > how to create that reference.
+
+When necessary, the plugin can be uninstalled via the command line with the
+following command:
+
+```console
+plover --script plover_plugins uninstall plover-run-applescript
+```
 
 [AppleScript]: https://en.wikipedia.org/wiki/AppleScript
 [Build Status image]: https://github.com/paulfioravanti/plover-run-applescript/actions/workflows/ci.yml/badge.svg
@@ -233,6 +237,6 @@ plover -s plover_plugins install .
 [`.scpt`]: https://fileinfo.com/extension/scpt
 [script libraries]: https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/UseScriptLibraries.html
 [Sharing AppleScript Handlers]: https://www.paulfioravanti.com/blog/sharing-applescript-handlers/
-[this issue with PyXA]: https://github.com/SKaplanOfficial/PyXA/issues/16
+[this issue]: https://github.com/SKaplanOfficial/PyXA/issues/16
 [version 0.0.9]: https://github.com/SKaplanOfficial/PyXA/tree/v0.0.9
 [`workflow_context.yml`]: https://github.com/openstenoproject/plover/blob/master/.github/workflows/ci/workflow_context.yml
