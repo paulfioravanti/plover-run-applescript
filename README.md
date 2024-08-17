@@ -22,19 +22,20 @@ This [Plover][] [extension][] [plugin][] contains a [command][] that can run
 
 ### One-Liners
 
-If your AppleScript is one line long, then you can use it directly in your
-dictionary entry:
+If your AppleScript is one line long, then you can use the code directly in your
+steno dictionary entry in the following way:
 
 ```json
-"{:COMMAND:APPLESCRIPT:activate application \"Google Chrome\"}"
+"KR-PL": "{:COMMAND:APPLESCRIPT:activate application \"Google Chrome\"}"
 ```
 
 ### AppleScript Files
 
-In your dictionaries, create entry values that look like the following:
+To run code in AppleScript files, create steno dictionary entry values that look
+like the following:
 
 ```json
-"{:COMMAND:APPLESCRIPT:/path/to/your/applescript-file.scpt}"
+"KPH-PBD": "{:COMMAND:APPLESCRIPT:/path/to/your/applescript-file.scpt}"
 ```
 
 > [!NOTE]
@@ -56,8 +57,27 @@ export STENO_DICTIONARIES="$HOME/steno/steno-dictionaries"
 You can use it in the command:
 
 ```json
-"{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/path/to/applescript-file.scpt}"
+"KPH-PBD": "{:COMMAND:APPLESCRIPT:$STENO_DICTIONARIES/path/to/applescript-file.scpt}"
 ```
+
+### Sending Commands
+
+If you want to test out a command before adding a steno dictionary entry
+containing it, you can use Plover's [`plover_send_command`][] command-line tool.
+For example:
+
+```console
+plover --script plover_send_command "APPLESCRIPT:activate application \"Google Chrome\""
+plover --script plover_send_command "APPLESCRIPT:/path/to/your/applescript-file.scpt"
+```
+
+> Where `plover` in the command is a reference to your locally installed version
+> of Plover. See the [Invoke Plover from the command line][] page for details on
+> how to create that reference.
+
+Pressing the "Disconnect and reconnect the machine" button on the Plover UI
+resets the AppleScript script cache. If you make any changes to any AppleScript
+files, make sure to press it so the file will be re-read in again.
 
 > [!WARNING]
 > Due to [this issue][] with [PyXA][], which this plugin relies on to talk to
@@ -90,10 +110,6 @@ You can use it in the command:
 > uses a Python version later than 3.9, we will have to wait until the Python
 > version bundled in with Plover itself updates to at least 3.10 before this
 > problem can be properly resolved.
-
-Pressing the "Disconnect and reconnect the machine" button on the Plover UI
-resets the AppleScript script cache. If you make any changes to any AppleScript
-files, make sure to press it so the file will be re-read in again.
 
 ## The Problem
 
@@ -226,6 +242,7 @@ plover --script plover_plugins uninstall plover-run-applescript
 [`osascript`]: https://ss64.com/osx/osascript.html
 [Plover]: https://www.openstenoproject.org/
 [Plover Run Shell]: https://github.com/user202729/plover_run_shell
+[`plover_send_command`]: https://plover.readthedocs.io/en/latest/cli_reference.html#sending-commands
 [plugin]: https://plover.readthedocs.io/en/latest/plugins.html#types-of-plugins
 [Pylint]: https://github.com/pylint-dev/pylint
 [PyPI downloads image]:https://img.shields.io/pypi/dm/plover-run-applescript
