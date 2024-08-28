@@ -199,11 +199,12 @@ coverage html
 open htmlcov/index.html
 ```
 
-If you get `ModuleNotFoundError: No module named 'PyXA'` errors, then run the
-following command to get PyXA available in your test environment:
+If you are a [`just`][] user, you may find the [`justfile`][] useful during
+development in running multiple test commands. You can run the following command
+from the project root directory:
 
 ```console
-pip install -e ".[test]"
+just --working-directory . --justfile test/justfile
 ```
 
 ### Deploying Changes
@@ -236,6 +237,8 @@ plover --script plover_plugins uninstall plover-run-applescript
 [git]: https://git-scm.com/
 [interactive mode]: https://www.gnu.org/software/bash/manual/html_node/Interactive-Shell-Behavior.html
 [Invoke Plover from the command line]: https://github.com/openstenoproject/plover/wiki/Invoke-Plover-from-the-command-line
+[`just`]: https://github.com/casey/just
+[`justfile`]: ./test/justfile
 [linting image]: https://img.shields.io/badge/linting-pylint-yellowgreen
 [linting url]: https://github.com/pylint-dev/pylint
 [macOS]: https://en.wikipedia.org/wiki/MacOS
@@ -245,6 +248,7 @@ plover --script plover_plugins uninstall plover-run-applescript
 [`osacompile`]: https://ss64.com/osx/osacompile.html
 [`osascript`]: https://ss64.com/osx/osascript.html
 [Plover]: https://www.openstenoproject.org/
+[plover_run_applescript project file]: https://github.com/paulfioravanti/dotfiles/blob/master/tmuxinator/plover_run_applescript.yml
 [Plover Run Shell]: https://github.com/user202729/plover_run_shell
 [`plover_send_command`]: https://plover.readthedocs.io/en/latest/cli_reference.html#sending-commands
 [plugin]: https://plover.readthedocs.io/en/latest/plugins.html#types-of-plugins
@@ -259,5 +263,6 @@ plover --script plover_plugins uninstall plover-run-applescript
 [script libraries]: https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/UseScriptLibraries.html
 [Sharing AppleScript Handlers]: https://www.paulfioravanti.com/blog/sharing-applescript-handlers/
 [this issue]: https://github.com/SKaplanOfficial/PyXA/issues/16
+[Tmuxinator]: https://github.com/tmuxinator/tmuxinator
 [version 0.0.9]: https://github.com/SKaplanOfficial/PyXA/tree/v0.0.9
 [`workflow_context.yml`]: https://github.com/openstenoproject/plover/blob/master/.github/workflows/ci/workflow_context.yml
