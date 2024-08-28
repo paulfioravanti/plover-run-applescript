@@ -2,6 +2,7 @@ import pytest
 
 from plover_run_applescript import path
 
+
 # Fixtures
 
 @pytest.fixture

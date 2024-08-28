@@ -4,6 +4,7 @@ import pytest
 
 from plover_run_applescript import config
 
+
 # Files
 
 @pytest.fixture
