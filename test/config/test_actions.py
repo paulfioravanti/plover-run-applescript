@@ -18,11 +18,9 @@ def non_existent_config_path():
 @pytest.fixture
 def non_array_applescript_filepaths_config_path():
     return (
-        (
-            Path(__file__).parent /
-            "files/non_array_applescript_filepaths.json"
-        ).resolve()
-    )
+        Path(__file__).parent /
+        "files/non_array_applescript_filepaths.json"
+    ).resolve()
 
 @pytest.fixture
 def valid_applescript_filepaths_config_path():
