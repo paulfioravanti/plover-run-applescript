@@ -24,9 +24,7 @@ jobs:
 
       - name: Install Test, Coverage, Lint, Type Checking Dependencies
         # Ensure that PyXA is installed as a test dependency
-        run: |
-          pip install pytest pytest-mock pylint mypy coverage
-          pip install -e ".[test]"
+        run: pip install -e ".[test]"
 
       - name: Run Linter
         run: pylint plover_run_applescript
