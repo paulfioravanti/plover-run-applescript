@@ -7,12 +7,12 @@ from typing import Any
 from PyXA import AppleScript
 
 
-def load(filepath: str) -> "AppleScript":
+def load(filepath: str) -> AppleScript:
     """
     Wrapper around AppleScript.load(path)
     """
     try:
-        script = AppleScript.load(filepath)
+        script: AppleScript = AppleScript.load(filepath)
     except AttributeError as exc:
         raise ValueError(f"Unable to load file from: {filepath}") from exc
 
@@ -24,7 +24,7 @@ def run_code(code: str) -> Any:
     """
     return run_script(AppleScript(code))
 
-def run_script(script: "AppleScript") -> Any:
+def run_script(script: AppleScript) -> Any:
     """
     Wrapper around AppleScript.run(self)
     """

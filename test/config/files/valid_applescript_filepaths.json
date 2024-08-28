@@ -1,6 +1,6 @@
 {
   "applescripts": [
-    "path/to/foo.scpt",
-    "path/to/bar.scpt"
+    "path/to/bar.scpt",
+    "path/to/foo.scpt"
   ]
 }

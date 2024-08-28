@@ -12,13 +12,15 @@ from plover.machine.base import STATE_RUNNING
 from plover.oslayer.config import CONFIG_DIR
 from plover.registry import registry
 
+from PyXA import AppleScript
+
 from . import (
     applescript,
     config,
     path
 )
 
-_CONFIG_FILEPATH = Path(CONFIG_DIR) / "run_applescript.json"
+_CONFIG_FILEPATH: Path = Path(CONFIG_DIR) / "run_applescript.json"
 
 class RunAppleScript:
     """
@@ -26,14 +28,17 @@ class RunAppleScript:
     The command deals with loading, storing, and running external AppleScript
     files.
     """
+    _applescripts: dict[str, Any]
+    _engine: StenoEngine
+
     def __init__(self, engine: StenoEngine) -> None:
         self._engine = engine
-        self._applescripts: dict[str, Any] = {}
 
     def start(self) -> None:
         """
         Sets up the command plugin and steno engine hooks
         """
+        self._applescripts = config.load(_CONFIG_FILEPATH)
         registry.register_plugin(
             "command",
             "APPLESCRIPT",
@@ -43,7 +48,6 @@ class RunAppleScript:
             "machine_state_changed",
             self._machine_state_changed
         )
-        self._applescripts = config.load(_CONFIG_FILEPATH)
 
     def stop(self) -> None:
         """
@@ -65,10 +69,11 @@ class RunAppleScript:
         if not argument.endswith(applescript.FILE_EXTENSION):
             return applescript.run_code(argument)
 
+        script: AppleScript
         try:
             script = self._applescripts[argument]
         except KeyError:
-            filepath = path.expand(argument)
+            filepath: str = path.expand(argument)
             script = applescript.load(filepath)
             self._applescripts[argument] = script
             config.save(

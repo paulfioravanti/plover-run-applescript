@@ -4,13 +4,16 @@ Expander - a module for dealing with expansion of ENV vars in a file path.
 import os
 import re
 
-from typing import Tuple
+from typing import (
+    Pattern,
+    Tuple
+)
 
 
-_ENV_VAR = re.compile(r"(\$[A-Za-z_][A-Za-z_0-9]*)")
-_DEFAULT_SHELL = "bash"
-_VAR_DIVIDER = "##"
-_ENV_VAR_SYNTAX = "$"
+_ENV_VAR: Pattern[str] = re.compile(r"(\$[A-Za-z_][A-Za-z_0-9]*)")
+_DEFAULT_SHELL: str = "bash"
+_VAR_DIVIDER: str = "##"
+_ENV_VAR_SYNTAX: str = "$"
 
 def expand(path: str) -> str:
     """
@@ -18,9 +21,10 @@ def expand(path: str) -> str:
 
     Raises an error if a value for the env var cannot be found.
     """
-    parts = re.split(_ENV_VAR, path)
-    shell = _fetch_shell()
-    expanded_parts = []
+    parts: list[str] = re.split(_ENV_VAR, path)
+    shell: str = _fetch_shell()
+    expanded_parts: list[str] = []
+
     for part in parts:
         if part.startswith(_ENV_VAR_SYNTAX):
             expanded_parts.append(_perform_expansion(part, shell))
@@ -54,7 +58,7 @@ def _perform_expansion(target: str, shell: str) -> str:
     # NOTE: Using an interactive mode command (bash/zsh/fish -ic) seemed to be
     # the only way to access a user's env vars on a Mac outside Plover's
     # environment.
-    expanded = os.popen(f"{shell} -ic 'echo {target}'").read().strip()
+    expanded: str = os.popen(f"{shell} -ic 'echo {target}'").read().strip()
 
     if not expanded:
         raise ValueError(f"No value found for env var: {target}")
