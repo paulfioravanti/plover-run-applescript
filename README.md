@@ -151,7 +151,11 @@ Clone from GitHub with [git][]:
 ```console
 git clone git@github.com:paulfioravanti/plover-run-applescript.git
 cd plover-run-applescript
+python -m pip install --editable ".[test]"
 ```
+
+If you are a [Tmuxinator][] user, you may find my [plover_run_applescript
+project file][] of reference.
 
 ### Python Version
 
