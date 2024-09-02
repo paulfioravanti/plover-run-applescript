@@ -1,2 +1,7 @@
 [MAIN]
-ignored-modules=plover.machine.base,plover.registry,plover.engine,plover.oslayer.config,PyXA
+ignored-modules =
+    plover.engine
+    plover.machine.base
+    plover.oslayer.config
+    plover.registry
+    PyXA

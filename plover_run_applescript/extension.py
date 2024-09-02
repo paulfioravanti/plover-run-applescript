@@ -20,7 +20,8 @@ from . import (
     path
 )
 
-_CONFIG_FILEPATH: Path = Path(CONFIG_DIR) / "run_applescript.json"
+
+_CONFIG_FILE: Path = Path(CONFIG_DIR) / config.CONFIG_BASENAME
 
 class RunAppleScript:
     """
@@ -38,7 +39,7 @@ class RunAppleScript:
         """
         Sets up the command plugin and steno engine hooks
         """
-        self._applescripts = config.load(_CONFIG_FILEPATH)
+        self._applescripts = config.load(_CONFIG_FILE)
         registry.register_plugin(
             "command",
             "APPLESCRIPT",
@@ -76,10 +77,7 @@ class RunAppleScript:
             filepath: str = path.expand(argument)
             script = applescript.load(filepath)
             self._applescripts[argument] = script
-            config.save(
-                _CONFIG_FILEPATH,
-                sorted(self._applescripts.keys())
-            )
+            config.save(_CONFIG_FILE, sorted(self._applescripts.keys()))
 
         return applescript.run_script(script)
 
@@ -94,4 +92,4 @@ class RunAppleScript:
         made to external AppleScripts to be re-read in.
         """
         if machine_state == STATE_RUNNING:
-            self._applescripts = config.load(_CONFIG_FILEPATH)
+            self._applescripts = config.load(_CONFIG_FILE)

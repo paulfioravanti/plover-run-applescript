@@ -5,6 +5,9 @@ import json
 from pathlib import Path
 from typing import Any
 
+
+CONFIG_BASENAME: str = "run_applescript.json"
+
 def load(filepath: Path) -> dict[str, Any]:
     """
     Reads in data from a JSON file
