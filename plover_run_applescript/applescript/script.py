@@ -25,7 +25,7 @@ def run_code(code: str) -> Any:
     return run_script(AppleScript(code))
 
 # NOTE: PyXA defines AppleScript.run as returning Any
-# REF: https://github.com/SKaplanOfficial/PyXA/blob/10a596798f5c86cc0948f3bad397cd57d383eb61/PyXA/XABase.py#L2041
+# REF: https://github.com/SKaplanOfficial/PyXA/blob/main/PyXA/XABase.py#L2041
 def run_script(script: AppleScript) -> Any:
     """
     Wrapper around AppleScript.run(self)

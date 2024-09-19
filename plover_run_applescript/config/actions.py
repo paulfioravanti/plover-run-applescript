@@ -26,7 +26,9 @@ def load(config_filepath: Path) -> dict[str, str]:
     Raises an error if the specified config file is not JSON format.
     """
     data: dict[str, Any] = file.load(config_filepath)
-    config_applescript_filepaths: list[str] = transformer.transform(data)
+    config_applescript_filepaths: list[str] = (
+        transformer.transform_inbound(data)
+    )
 
     if not config_applescript_filepaths:
         return {}
@@ -49,7 +51,9 @@ def save(config_filepath: Path, applescript_filepaths: list[str]) -> None:
     """
     Saves the set of applescript filepaths to the config JSON file.
     """
-    data: dict[str, list[str]] = {"applescripts": applescript_filepaths}
+    data: dict[str, list[str]] = (
+        transformer.transform_outbound(applescript_filepaths)
+    )
     file.save(config_filepath, data)
 
 def _load_applescripts(
