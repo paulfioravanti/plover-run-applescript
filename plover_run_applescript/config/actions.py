@@ -13,7 +13,10 @@ from .. import (
     applescript,
     path
 )
-from . import file
+from . import (
+    file,
+    transformer
+)
 
 
 def load(config_filepath: Path) -> dict[str, str]:
@@ -23,7 +26,7 @@ def load(config_filepath: Path) -> dict[str, str]:
     Raises an error if the specified config file is not JSON format.
     """
     data: dict[str, Any] = file.load(config_filepath)
-    config_applescript_filepaths: list[str] = _parse(data)
+    config_applescript_filepaths: list[str] = transformer.transform(data)
 
     if not config_applescript_filepaths:
         return {}
@@ -48,17 +51,6 @@ def save(config_filepath: Path, applescript_filepaths: list[str]) -> None:
     """
     data: dict[str, list[str]] = {"applescripts": applescript_filepaths}
     file.save(config_filepath, data)
-
-def _parse(data: dict[str, Any]) -> list[str]:
-    filepaths: list[str] = data.get("applescripts", [])
-
-    if (
-        isinstance(filepaths, list)
-        and all(isinstance(filepath, str) for filepath in filepaths)
-    ):
-        return filepaths
-
-    raise TypeError("'applescripts' must be a list of strings")
 
 def _load_applescripts(
     expanded_applescript_filepaths: list[Tuple[str, str]]
