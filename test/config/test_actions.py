@@ -16,10 +16,22 @@ def non_existent_config_path():
     return (Path(__file__).parent / "files/non_existent.json").resolve()
 
 @pytest.fixture
-def non_array_applescript_filepaths_config_path():
+def non_list_applescript_filepaths_config_path():
     return (
-        Path(__file__).parent /
-        "files/non_array_applescript_filepaths.json"
+        Path(__file__).parent / "files/non_list_applescript_filepaths.json"
+    ).resolve()
+
+@pytest.fixture
+def empty_list_applescript_filepaths_config_path():
+    return (
+        Path(__file__).parent / "files/empty_list_applescript_filepaths.json"
+    ).resolve()
+
+@pytest.fixture
+def list_non_string_applescript_filepaths_config_path():
+    return (
+        Path(__file__).parent
+        / "files/list_non_string_applescript_filepaths.json"
     ).resolve()
 
 @pytest.fixture
@@ -27,6 +39,7 @@ def valid_applescript_filepaths_config_path():
     path = (
         Path(__file__).parent / "files/valid_applescript_filepaths.json"
     ).resolve()
+
     with path.open(encoding="utf-8") as file:
         config_data = json.load(file)
         file.close()
@@ -50,11 +63,29 @@ def test_non_existent_config(non_existent_config_path):
     loaded_config = config.load(non_existent_config_path)
     assert loaded_config == {}
 
-def test_config_with_non_array_applescript_filepaths_names(
-    non_array_applescript_filepaths_config_path
+def test_config_with_non_list_applescript_filepaths_names(
+    non_list_applescript_filepaths_config_path
 ):
-    with pytest.raises(ValueError, match="'applescripts' must be a list"):
-        config.load(non_array_applescript_filepaths_config_path)
+    with pytest.raises(
+        TypeError,
+        match="'applescripts' must be a list of strings"
+    ):
+        config.load(non_list_applescript_filepaths_config_path)
+
+def test_config_with_empty_list_applescript_filepaths_names(
+    empty_list_applescript_filepaths_config_path
+):
+    loaded_config = config.load(empty_list_applescript_filepaths_config_path)
+    assert loaded_config == {}
+
+def test_config_with_list_non_string_applescript_filepaths_names(
+    list_non_string_applescript_filepaths_config_path
+):
+    with pytest.raises(
+        TypeError,
+        match="'applescripts' must be a list of strings"
+    ):
+        config.load(list_non_string_applescript_filepaths_config_path)
 
 def test_loading_existing_applescripts(
     mocker,

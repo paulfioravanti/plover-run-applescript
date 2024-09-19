@@ -52,10 +52,13 @@ def save(config_filepath: Path, applescript_filepaths: list[str]) -> None:
 def _parse(data: dict[str, Any]) -> list[str]:
     filepaths: list[str] = data.get("applescripts", [])
 
-    if not isinstance(filepaths, list):
-        raise ValueError("'applescripts' must be a list")
+    if (
+        isinstance(filepaths, list)
+        and all(isinstance(filepath, str) for filepath in filepaths)
+    ):
+        return filepaths
 
-    return filepaths
+    raise TypeError("'applescripts' must be a list of strings")
 
 def _load_applescripts(
     expanded_applescript_filepaths: list[Tuple[str, str]]
