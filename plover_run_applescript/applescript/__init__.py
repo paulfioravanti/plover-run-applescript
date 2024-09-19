@@ -11,7 +11,6 @@ from .script import (
     run_script
 )
 
-FILE_EXTENSION = ".scpt"
 
 __all__ = [
     "FILE_EXTENSION",
@@ -19,3 +18,5 @@ __all__ = [
     "run_code",
     "run_script",
 ]
+
+FILE_EXTENSION = ".scpt"
