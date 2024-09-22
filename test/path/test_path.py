@@ -3,22 +3,6 @@ import pytest
 from plover_run_applescript import path
 
 
-# Fixtures
-
-@pytest.fixture
-def path_without_env_vars():
-    return "/Users/test_user/some_directory"
-
-@pytest.fixture
-def path_with_env_var():
-    return "$HOME/some_directory"
-
-@pytest.fixture
-def path_with_multiple_env_vars(path_with_env_var):
-    return path_with_env_var + "/$STENO_DICTIONARIES"
-
-# Tests
-
 def test_no_env_vars_in_path(path_without_env_vars):
     assert (
       path.expand(path_without_env_vars) == path_without_env_vars

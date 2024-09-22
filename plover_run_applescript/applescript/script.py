@@ -2,6 +2,7 @@
 Script - A module to wrap around PyXA's AppleScript functionality. Mostly
 exists to provide appropriate error handling and messages for the plugin.
 """
+
 from typing import Any
 
 from PyXA import AppleScript

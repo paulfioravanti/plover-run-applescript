@@ -4,6 +4,7 @@ Plover entry point extension module for Plover Run AppleScript.
     - https://plover.readthedocs.io/en/latest/plugin-dev/extensions.html
     - https://plover.readthedocs.io/en/latest/plugin-dev/commands.html
 """
+
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +30,7 @@ class RunAppleScript:
     The command deals with loading, storing, and running external AppleScript
     files.
     """
+
     _applescripts: dict[str, Any]
     _engine: StenoEngine
 

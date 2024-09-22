@@ -1,6 +1,7 @@
 """
 Module to handle extracting data from data sources
 """
+
 from typing import (
     Any,
     Tuple

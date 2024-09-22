@@ -1,6 +1,7 @@
 """
 Expander - a module for dealing with expansion of ENV vars in a file path.
 """
+
 import os
 import re
 from typing import (
@@ -41,8 +42,8 @@ def expand_list(filepath_list: list[str]) -> list[Tuple[str, str]]:
     """
     filepaths: str = _VAR_DIVIDER.join(filepath_list)
     expanded_filepaths: str = _perform_expansion(filepaths)
-    expanded_filepath_list: list[Tuple[str, str]] = list(
-        zip(filepath_list, expanded_filepaths.split(_VAR_DIVIDER))
+    expanded_filepath_list: list[Tuple[str, str]] = (
+        list(zip(filepath_list, expanded_filepaths.split(_VAR_DIVIDER)))
     )
 
     return expanded_filepath_list
