@@ -10,7 +10,7 @@ coverage:
   open htmlcov/index.html
 
 lint:
-  pylint plover_run_applescript
+  pylint src
 
 typecheck:
-  mypy plover_run_applescript
+  mypy src
