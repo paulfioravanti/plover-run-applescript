@@ -4,6 +4,7 @@ Expander - a module for dealing with expansion of ENV vars in a file path.
 
 import os
 import re
+import subprocess
 from typing import (
     Pattern,
     Tuple
@@ -52,7 +53,13 @@ def _perform_expansion(target: str) -> str:
     # NOTE: Using an interactive mode command (bash/zsh/fish -ic) seemed to be
     # the only way to access a user's env vars on a Mac outside Plover's
     # environment.
-    expanded: str = os.popen(f"{_SHELL} -ic 'echo {target}'").read().strip()
+    expanded: str = subprocess.run(
+        f"{_SHELL} -ic 'echo {target}'",
+        capture_output=True,
+        check=False,
+        encoding="utf-8",
+        shell=True
+    ).stdout.strip()
 
     if not expanded:
         raise ValueError(f"No value found for env var: {target}")
